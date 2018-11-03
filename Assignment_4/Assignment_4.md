@@ -7,7 +7,7 @@
 | Accuracy |                            Params                            |      |
 | :------: | :----------------------------------------------------------: | :--: |
 |  92.74   | 913k(3 dense blocks, depth 48, growth in each dense block: 16, 32, 24) |      |
-|   91.3   |               830k(4 dense blocks w/o wingrad)               |      |
+|   91.3   |              830k(4 dense blocks w/o winograd)               |      |
 |   91.2   |              990k(4 dense blocks with winograd)              |      |
 |   ~88    |             0.8M (Many unsuccessfully attempts)              |      |
 
@@ -15,7 +15,9 @@
 
 #### The approaches taken/understood while trying to get the required valition accuracy:
 
-![](https://media.giphy.com/media/g1a84q6RBSMrS/giphy.gif)
+![](https://media.giphy.com/media/2sddCIZRYfiPlNeLZn/giphy.gif)
+
+
 
 
 
@@ -58,55 +60,55 @@
 
 ------
 
-​										Input (None, None, 3)			
+​							Input (None, None, 3)			
 
 ------
 
-Convolution  							(5*1,64)
+Convolution  					(5*1,64)
 
-​										(1*5,64)
-
-------
-
-Dense Block								[1*1] x 16
-
-​	(1)									[3*1] x 16
-
-​										[1*3] x 16
+​								(1*5,64)
 
 ------
 
-Transition Layer							[1*1] x 16
+Dense Block						[1*1] x 16
 
-​	(1)									Avergaing Pool
+​	(1)							[3*1] x 16
 
-------
-
-Dense Block								[1*1] x 32
-
-​	(2)									[3*1] x 32
-
-​										[1*3] x 32
+​								[1*3] x 16
 
 ------
 
-Transition Layer							[1*1] x 16
+Transition Layer					[1*1] x 16
 
-​	(2)									Avergaing Pool
-
-------
-
-Dense Block								[1*1] x 24
-
-​	(3)									[3*1] x 24
-
-​										[1*3] x 24
+​	(1)							Avergaing Pool
 
 ------
 
-Classifiction	 						GlobalAveragePooling2D
+Dense Block						[1*1] x 32
 
-​     Layer								10(number of classes)D Fully Connected
+​	(2)							[3*1] x 32
+
+​								[1*3] x 32
+
+------
+
+Transition Layer					[1*1] x 16
+
+​	(2)							Avergaing Pool
+
+------
+
+Dense Block						[1*1] x 24
+
+​	(3)							[3*1] x 24
+
+​								[1*3] x 24
+
+------
+
+Classifiction	 				GlobalAveragePooling2D
+
+​     Layer						10(number of classes)D Fully Connected
 
 ------
 
